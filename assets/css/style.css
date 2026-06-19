@@ -162,12 +162,11 @@ body {
 .gallery-img {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10px;
   display: block;
   cursor: zoom-in;
   transition: opacity 0.18s, transform 0.18s;
-  background: var(--lime-mid);
 }
 
 /* First image in multi-image gallery spans full width */
