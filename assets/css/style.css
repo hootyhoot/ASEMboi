@@ -34,7 +34,8 @@ body {
 }
 
 .floating-logo img {
-  height: 114px;
+  height: 200px;
+  max-width: 90vw;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.20));
@@ -42,7 +43,7 @@ body {
 
 /* ── Hero ── */
 .hero {
-  padding: 220px 24px 100px;
+  padding: 280px 24px 100px;
   text-align: center;
   background: var(--lime-pale);
   position: relative;
@@ -294,8 +295,8 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .floating-logo img { height: 80px; }
-  .hero { padding: 170px 20px 80px; }
+  .floating-logo img { height: 140px; }
+  .hero { padding: 220px 20px 80px; }
   .project-inner { padding: 0 20px; }
 
   .project-gallery,
