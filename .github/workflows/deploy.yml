@@ -14,7 +14,6 @@ jobs:
     #   3. Generate a Personal Access Token on the ASEMboi account (repo scope)
     #   4. Add it as secret ASEMBOI_DEPLOY_TOKEN on THIS repo (hootyhoot/ASEM)
     #      Settings → Secrets and variables → Actions → New repository secret
-    if: ${{ secrets.ASEMBOI_DEPLOY_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,6 +23,10 @@ jobs:
         env:
           TOKEN: ${{ secrets.ASEMBOI_DEPLOY_TOKEN }}
         run: |
+          if [ -z "$TOKEN" ]; then
+            echo "ASEMBOI_DEPLOY_TOKEN not set — skipping mirror deploy"
+            exit 0
+          fi
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git remote add mirror https://x-access-token:${TOKEN}@github.com/ASEMboi/ASEMboi.github.io.git
