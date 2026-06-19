@@ -23,24 +23,9 @@ body {
   background: var(--white);
 }
 
-/* ── Floating Logo ── */
-.logo-header {
-  display: flex;
-  justify-content: center;
-  padding-top: 40px;
-  background: var(--lime-pale);
-}
-
-.logo-header img {
-  height: 80px;
-  max-width: 90vw;
-  display: block;
-  object-fit: contain;
-}
-
 /* ── Hero ── */
 .hero {
-  padding: 40px 24px 100px;
+  padding: 48px 24px 100px;
   text-align: center;
   background: var(--lime-pale);
   position: relative;
@@ -56,6 +41,14 @@ body {
   height: 60px;
   background: var(--white);
   clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.hero-logo {
+  height: 80px;
+  max-width: 80vw;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 28px;
 }
 
 .hero h1 {
@@ -292,8 +285,8 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .logo-header img { height: 60px; }
-  .hero { padding: 24px 20px 80px; }
+  .hero-logo { height: 60px; }
+  .hero { padding: 32px 20px 80px; }
   .project-inner { padding: 0 20px; }
 
   .project-gallery,
