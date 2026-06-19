@@ -1,0 +1,8 @@
+{
+  "title": "6-DOF Robot Arm",
+  "date": "2025-06-19",
+  "description": "A 6 degree-of-freedom robotic arm powered by an ESP32 microcontroller and a PWM servo driver. The arm has 6 servos giving it full rotational freedom across every joint, allowing precise positioning and object manipulation. Control is handled wirelessly via a game controller — inputs are read by the ESP32 over Bluetooth and translated into servo angles in real time. The whole thing is written in C++, with custom code managing PWM signals, controller mapping, and smooth movement interpolation.",
+  "tags": ["ESP32", "C++", "6-DOF", "Servo", "PWM", "Game Controller", "Bluetooth"],
+  "cover": "robotArm.png",
+  "images": ["robotArm.png"]
+}
