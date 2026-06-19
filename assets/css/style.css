@@ -24,14 +24,14 @@ body {
 }
 
 /* ── Floating Logo ── */
-.floating-logo {
+.logo-header {
   display: flex;
   justify-content: center;
   padding-top: 40px;
   background: var(--lime-pale);
 }
 
-.floating-logo img {
+.logo-header img {
   height: 200px;
   max-width: 90vw;
   display: block;
@@ -292,7 +292,7 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .floating-logo img { height: 140px; }
+  .logo-header img { height: 140px; }
   .hero { padding: 24px 20px 80px; }
   .project-inner { padding: 0 20px; }
 
