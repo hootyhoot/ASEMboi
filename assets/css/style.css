@@ -44,11 +44,27 @@ body {
 }
 
 .hero-logo {
-  height: 80px;
+  height: 150px;
   max-width: 80vw;
   object-fit: contain;
   display: block;
   margin: 0 auto 28px;
+  cursor: pointer;
+}
+
+.hero-logo:hover {
+  animation: jiggle 0.5s ease;
+}
+
+@keyframes jiggle {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(-6deg) scale(1.05); }
+  30%  { transform: rotate(6deg) scale(1.05); }
+  45%  { transform: rotate(-4deg); }
+  60%  { transform: rotate(4deg); }
+  75%  { transform: rotate(-2deg); }
+  90%  { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
 }
 
 .hero h1 {
