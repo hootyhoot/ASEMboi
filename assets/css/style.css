@@ -32,7 +32,7 @@ body {
 }
 
 .logo-header img {
-  height: 200px;
+  height: 80px;
   max-width: 90vw;
   display: block;
   object-fit: contain;
@@ -292,7 +292,7 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .logo-header img { height: 140px; }
+  .logo-header img { height: 60px; }
   .hero { padding: 24px 20px 80px; }
   .project-inner { padding: 0 20px; }
 
