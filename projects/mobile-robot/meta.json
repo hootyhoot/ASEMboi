@@ -1,8 +1,8 @@
 {
   "title": "Mobile Robot",
   "date": "2025-06-19",
-  "description": "Our first fully autonomous mobile robot built during the ASEM NSEP AI & Robotics track. The robot navigates its environment using ultrasonic sensors for obstacle detection and a Raspberry Pi as the main controller running a custom Python navigation script. We learned how to integrate hardware and software from scratch — from wiring motor drivers to tuning sensor thresholds in real time.",
-  "tags": ["Raspberry Pi", "Python", "Autonomous", "Sensors", "Motor Control"],
+  "description": "Our first fully autonomous mobile robot built during the ASEM NSEP AI & Robotics track. The robot navigates its environment using ultrasonic sensors for obstacle detection and an Arduino Uno as the main controller running a custom C++ navigation script, the robot also can be controlled manually using an IR remote. The bot also has grabber arms to allow us to interact with objects in future labs. We learned how to integrate hardware and software from scratch — from wiring motor drivers to tuning sensor thresholds in real time.",
+  "tags": ["Arduino Uno", "C++", "Autonomous", "Sensors", "Motor Control"],
   "cover": "mobileRobot.png",
   "images": ["mobileRobot.png"]
 }
