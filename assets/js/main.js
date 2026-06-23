@@ -4,6 +4,8 @@ const lightboxClose = document.getElementById('lightbox-close');
 const lbImg = document.getElementById('lb-img');
 const lbPrev = document.getElementById('lb-prev');
 const lbNext = document.getElementById('lb-next');
+const backToTop = document.getElementById('back-to-top');
+const dock = document.getElementById('project-dock');
 
 let lbImages = [];
 let lbIndex = 0;
@@ -12,9 +14,18 @@ function isVideo(src) {
   return /\.(mp4|webm|mov)$/i.test(src);
 }
 
+// ── Back to top ────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 // ── Lightbox ──────────────────────────────────────────────
 function openLightbox(images, index) {
-  lbImages = images.filter(s => !isVideo(s)); // videos play inline, not in lightbox
+  lbImages = images.filter(s => !isVideo(s));
   lbIndex = Math.min(index, lbImages.length - 1);
   if (!lbImages.length) return;
   lbImg.src = lbImages[lbIndex];
@@ -45,6 +56,78 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Escape') closeLightbox();
 });
 
+// ── Dock ──────────────────────────────────────────────────
+const BUBBLE_SIZE = 44;
+const BUBBLE_GAP  = 16;
+const ARC_STEP    = 9;   // px drop per squared unit of index distance from center
+const MAG_MAX     = 2.5;
+const MAG_RADIUS  = 110; // px influence radius
+
+function buildDock(projects) {
+  dock.innerHTML = '';
+
+  projects.forEach((project, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dock-bubble';
+    btn.textContent = i + 1;
+    btn.setAttribute('aria-label', `Jump to: ${project.title}`);
+    btn.addEventListener('click', () => {
+      document.getElementById(`project-${i}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    dock.appendChild(btn);
+  });
+
+  layoutDock();
+  window.addEventListener('resize', layoutDock, { passive: true });
+  dock.addEventListener('mousemove', onDockMove);
+  dock.addEventListener('mouseleave', onDockLeave);
+}
+
+function layoutDock() {
+  const bubbles = [...dock.querySelectorAll('.dock-bubble')];
+  const n = bubbles.length;
+  if (!n) return;
+
+  const dockW   = dock.offsetWidth;
+  const centerX = dockW / 2;
+  const totalW  = n * BUBBLE_SIZE + (n - 1) * BUBBLE_GAP;
+  const startX  = centerX - totalW / 2;
+  const ci      = (n - 1) / 2; // fractional center index
+
+  // max arc drop — resize dock height to fit
+  const maxDrop = ARC_STEP * Math.pow(ci, 2);
+  dock.style.height = `${BUBBLE_SIZE + maxDrop + 20}px`;
+
+  bubbles.forEach((b, i) => {
+    const x    = startX + i * (BUBBLE_SIZE + BUBBLE_GAP);
+    const drop = ARC_STEP * Math.pow(i - ci, 2);
+    b.style.left = `${x}px`;
+    b.style.top  = `${drop}px`;
+    b._cx = x + BUBBLE_SIZE / 2; // store screen-relative center for magnify
+  });
+}
+
+function onDockMove(e) {
+  const rect   = dock.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+
+  dock.querySelectorAll('.dock-bubble').forEach(b => {
+    b.classList.remove('resetting');
+    const dist  = Math.abs(mouseX - b._cx);
+    const t     = Math.max(0, 1 - dist / MAG_RADIUS);
+    const scale = 1 + (MAG_MAX - 1) * Math.pow(t, 1.5);
+    b.style.transform = `scale(${scale})`;
+  });
+}
+
+function onDockLeave() {
+  dock.querySelectorAll('.dock-bubble').forEach(b => {
+    b.classList.add('resetting');
+    b.style.transform = '';
+  });
+}
+
 // ── Helpers ───────────────────────────────────────────────
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -54,12 +137,13 @@ function formatDate(dateStr) {
 }
 
 // ── Render section ─────────────────────────────────────────
-function renderSection(project) {
+function renderSection(project, index) {
   const section = document.createElement('section');
   section.className = 'project-section';
+  section.id = `project-${index}`;
 
   const media = project.images || [];
-  const tags = (project.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+  const tags  = (project.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
   let galleryClass = 'project-gallery';
   if (media.length === 1) galleryClass += ' single';
@@ -84,7 +168,7 @@ function renderSection(project) {
     </div>
   `;
 
-  const imgEls = [...section.querySelectorAll('.gallery-img')];
+  const imgEls  = [...section.querySelectorAll('.gallery-img')];
   const imgSrcs = media.filter(s => !isVideo(s));
   imgEls.forEach((img, i) => {
     img.addEventListener('click', () => openLightbox(imgSrcs, i));
@@ -125,7 +209,8 @@ async function loadProjects() {
       return;
     }
 
-    valid.forEach(p => main.appendChild(renderSection(p)));
+    valid.forEach((p, i) => main.appendChild(renderSection(p, i)));
+    buildDock(valid);
 
   } catch {
     main.innerHTML = '<p class="empty-state">Projects coming soon — check back after our next build session!</p>';
