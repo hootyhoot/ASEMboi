@@ -1,0 +1,8 @@
+{
+  "title": "Combined Robot Trial",
+  "date": "2025-06-19",
+  "description": "Our first end-to-end trial combining both robots in a single sequence. The mobile robot was calibrated to drive in a straight line by tuning the individual motor speeds — small differences in motor characteristics caused it to veer, so we adjusted PWM values until the path was consistent. We then used the ultrasonic sensor to program a precise stop distance, bringing the robot to a halt a fixed distance from a target object. With the mobile robot in position, the robot arm took over: we manually guided it through a series of poses, saved each one, and then triggered a replay sequence — allowing the arm to autonomously reach out and touch the mobile robot as the final step. The trial demonstrated both robots working as a coordinated system for the first time.",
+  "tags": ["Integration", "Motor Calibration", "Ultrasonic", "Pose Replay", "Arduino", "ESP32"],
+  "cover": null,
+  "images": ["sequence.mp4"]
+}

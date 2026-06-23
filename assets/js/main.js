@@ -8,10 +8,15 @@ const lbNext = document.getElementById('lb-next');
 let lbImages = [];
 let lbIndex = 0;
 
+function isVideo(src) {
+  return /\.(mp4|webm|mov)$/i.test(src);
+}
+
 // ── Lightbox ──────────────────────────────────────────────
 function openLightbox(images, index) {
-  lbImages = images;
-  lbIndex = index;
+  lbImages = images.filter(s => !isVideo(s)); // videos play inline, not in lightbox
+  lbIndex = Math.min(index, lbImages.length - 1);
+  if (!lbImages.length) return;
   lbImg.src = lbImages[lbIndex];
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -53,16 +58,19 @@ function renderSection(project) {
   const section = document.createElement('section');
   section.className = 'project-section';
 
-  const images = project.images || [];
+  const media = project.images || [];
   const tags = (project.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
   let galleryClass = 'project-gallery';
-  if (images.length === 1) galleryClass += ' single';
-  else if (images.length === 2) galleryClass += ' double';
+  if (media.length === 1) galleryClass += ' single';
+  else if (media.length === 2) galleryClass += ' double';
 
-  const galleryHTML = images.map((src, i) =>
-    `<img class="gallery-img" src="${src}" alt="${project.title} — image ${i + 1}" loading="lazy">`
-  ).join('');
+  const galleryHTML = media.map((src, i) => {
+    if (isVideo(src)) {
+      return `<video class="gallery-video" src="${src}" controls playsinline preload="metadata"></video>`;
+    }
+    return `<img class="gallery-img" src="${src}" alt="${project.title} — image ${i + 1}" loading="lazy">`;
+  }).join('');
 
   section.innerHTML = `
     <div class="project-inner">
@@ -72,12 +80,14 @@ function renderSection(project) {
         ${tags ? `<div class="project-tags">${tags}</div>` : ''}
         ${project.description ? `<p class="project-desc">${project.description}</p>` : ''}
       </div>
-      ${images.length ? `<div class="${galleryClass}">${galleryHTML}</div>` : ''}
+      ${media.length ? `<div class="${galleryClass}">${galleryHTML}</div>` : ''}
     </div>
   `;
 
-  section.querySelectorAll('.gallery-img').forEach((img, i) => {
-    img.addEventListener('click', () => openLightbox(images, i));
+  const imgEls = [...section.querySelectorAll('.gallery-img')];
+  const imgSrcs = media.filter(s => !isVideo(s));
+  imgEls.forEach((img, i) => {
+    img.addEventListener('click', () => openLightbox(imgSrcs, i));
   });
 
   return section;
