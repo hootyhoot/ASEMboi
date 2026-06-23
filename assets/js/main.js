@@ -74,8 +74,7 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Dock ──────────────────────────────────────────────────
-const MAG_MAX   = 2.5;
-const ARC_DROP  = 20;   // px: max drop at edge bubbles (inner-curve of hero ellipse)
+const MAG_MAX = 2.5;
 
 let dockData = [];
 let dockResizeTimer = null;
@@ -122,18 +121,29 @@ function layoutDock() {
   const gap   = bGap();
   const totalW = n * size + (n - 1) * gap;
   const halfW  = totalW / 2;
+  const ci    = (n - 1) / 2;
+  const vw    = window.innerWidth;
 
-  // Inner-curve arc: R_dock = halfW²/(2·ARC_DROP) — always smaller than
-  // R_hero = (0.55vw)²/60, giving drop(x) = ARC_DROP·(x/halfW)²
-  // Container: 16px top space + size + ARC_DROP + 16px padding-bottom (CSS)
-  dock.style.height = `${size + 32 + ARC_DROP}px`;
+  // Arc drop derived from the same circle as the hero (R_hero = vw²/480 + 30).
+  // R_dock is the inner-curve radius (d ≈ 90 px separation from hero apex).
+  // refX is capped at 150 px: once halfW > 150 (≥ 6 desktop bubbles) arcDrop
+  // is a function of viewport only — adding more items doesn't change it.
+  const R_hero  = vw * vw / 480 + 30;
+  const R_dock  = Math.max(R_hero - 90, 200);
+  const refX    = Math.min(halfW, 150);
+  const arcDrop = Math.min(size * 0.55, (refX * refX) / (2 * R_dock));
+
+  dock.style.height = `${Math.ceil(size + 32 + arcDrop)}px`;
   dock.style.gap    = `${gap}px`;
 
   dockData.forEach((bd, i) => {
-    const xc  = i * (size + gap) + size / 2 - halfW;
-    const drop = ARC_DROP * (xc / halfW) * (xc / halfW);
-    // flex-end: more margin-bottom → bubble sits higher; center=max, edges=0
-    const mb = ARC_DROP - drop;
+    // Index-based arc: normalise by bubble index, not screen position.
+    // Edge bubbles sit at index 0 and n−1 → normI = ±1 → drop = arcDrop.
+    // This is constant regardless of how many items exist, fixing the
+    // "more items = more apparent curve" artefact of the x-position formula.
+    const normI = n > 1 ? (i - ci) / ci : 0;
+    const drop  = arcDrop * normI * normI;
+    const mb    = arcDrop - drop;   // center: arcDrop (highest); edges: 0
 
     bd.baseMarginBottom = mb;
     bd.baseSize = size;
