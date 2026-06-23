@@ -67,7 +67,7 @@ function renderSection(project) {
 
   const galleryHTML = media.map((src, i) => {
     if (isVideo(src)) {
-      return `<video class="gallery-video" src="${src}" controls playsinline preload="metadata"></video>`;
+      return `<video class="gallery-video" src="${src}" autoplay muted loop playsinline preload="auto"></video>`;
     }
     return `<img class="gallery-img" src="${src}" alt="${project.title} — image ${i + 1}" loading="lazy">`;
   }).join('');

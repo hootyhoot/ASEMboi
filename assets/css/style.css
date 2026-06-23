@@ -182,10 +182,9 @@ body {
 
 .gallery-video {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: 10px;
   display: block;
-  background: #000;
 }
 
 /* Section divider accent */
