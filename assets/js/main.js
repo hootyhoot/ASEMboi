@@ -130,7 +130,7 @@ function layoutDock() {
   // Inner-curve formula: R_visual_dock = vw/2 − 90 (90 px separation).
   // refX capped at 150 px: once halfW > 150 (≥ 6 desktop bubbles) arcDrop
   // responds only to viewport width, not item count.
-  const R_visual = Math.max(vw / 2 - 90, 100);
+  const R_visual = Math.max(vw / 2 - 90, 100) * 0.8;
   const refX     = Math.min(halfW, 150);
   const arcDrop  = Math.min(size * 0.55, (refX * refX) / (2 * R_visual));
 
