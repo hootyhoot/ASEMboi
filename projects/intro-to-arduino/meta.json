@@ -1,8 +1,0 @@
-{
-  "title": "Introduction to Arduino",
-  "date": "2025-04-10",
-  "description": "Our very first session with hardware — blinking LEDs, reading pushbuttons, and driving a small buzzer. We set up the Arduino IDE, wrote our first sketch, and learned the difference between digital and analog I/O. The session ended with a mini challenge: build a traffic light sequencer using three LEDs and a button that triggers a pedestrian-crossing mode. Simple, but it made the fundamentals click for the whole team.",
-  "tags": ["Arduino", "Beginner", "Digital I/O", "C++", "LED"],
-  "cover": null,
-  "images": []
-}

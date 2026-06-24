@@ -1,8 +1,0 @@
-{
-  "title": "IoT Smart Door Lock",
-  "date": "2025-06-10",
-  "description": "A Wi-Fi enabled door lock built around an ESP32. A keypad on the door panel accepts a PIN; correct entry triggers a servo to retract the latch. The ESP32 also hosts a small web interface on the local network so the lock can be toggled remotely without physical access. We learned about debouncing keypad inputs in hardware, EEPROM persistence for PIN storage, and basic HTTP server hosting on a microcontroller.",
-  "tags": ["ESP32", "IoT", "Wi-Fi", "Servo", "Keypad", "C++"],
-  "cover": null,
-  "images": []
-}

@@ -1,8 +1,0 @@
-{
-  "title": "Line Following Robot",
-  "date": "2025-05-15",
-  "description": "A two-wheeled robot that traces a black tape line on a white surface using an array of IR reflectance sensors. A PID controller running on an Arduino adjusts motor speeds in real time to minimise lateral error. We tuned the P, I, and D gains iteratively on a test track, learning how each term affects overshoot and oscillation. The final robot completed a figure-eight course without losing the line.",
-  "tags": ["Arduino", "PID", "IR Sensors", "Motor Control", "C++", "Autonomous"],
-  "cover": null,
-  "images": []
-}

@@ -1,8 +1,0 @@
-{
-  "title": "Gesture-Controlled LED Matrix",
-  "date": "2025-05-28",
-  "description": "An 8×8 LED matrix display driven by an Arduino Nano, controlled by an MPU-6050 gyroscope/accelerometer worn on the wrist. Tilting the hand left/right scrolls through preset patterns; a wrist flick triggers a random animation. The project introduced us to I2C communication, interrupt-driven sensor reads, and bit-manipulation for driving the matrix via shift registers.",
-  "tags": ["Arduino Nano", "MPU-6050", "I2C", "LED Matrix", "Gesture", "C++"],
-  "cover": null,
-  "images": []
-}

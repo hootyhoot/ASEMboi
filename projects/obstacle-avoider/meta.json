@@ -1,8 +1,0 @@
-{
-  "title": "Obstacle Avoidance Robot",
-  "date": "2025-04-30",
-  "description": "Our first attempt at autonomous navigation. An Arduino Uno reads a front-mounted ultrasonic sensor at 20 Hz. When an obstacle is detected within 25 cm, the robot halts, rotates in place until the path is clear, then resumes forward motion. A second side-facing sensor prevents the robot from drifting into walls during the turn. This project built our understanding of sensor polling, state machines, and timing with millis() instead of delay().",
-  "tags": ["Arduino Uno", "Ultrasonic", "State Machine", "Autonomous", "C++"],
-  "cover": null,
-  "images": []
-}

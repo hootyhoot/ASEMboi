@@ -1,10 +1,5 @@
 [
   "mobile-robot",
   "robot-arm",
-  "combined-robot-trial",
-  "iot-door-lock",
-  "gesture-control",
-  "line-follower",
-  "obstacle-avoider",
-  "intro-to-arduino"
+  "combined-robot-trial"
 ]
