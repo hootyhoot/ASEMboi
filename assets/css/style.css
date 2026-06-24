@@ -255,6 +255,7 @@ body {
   height: auto;
   border-radius: 10px;
   display: block;
+  background: transparent;
 }
 
 /* Section divider accent */

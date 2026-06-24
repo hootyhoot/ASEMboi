@@ -196,6 +196,22 @@ function onDockLeave() {
   });
 }
 
+// ── Video visibility (pause when scrolled off-screen) ─────
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const v = entry.target;
+    if (entry.isIntersecting) {
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  });
+}, { threshold: 0.15 });
+
+function observeVideos(container) {
+  container.querySelectorAll('video.gallery-video').forEach(v => videoObserver.observe(v));
+}
+
 // ── Helpers ───────────────────────────────────────────────
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -277,7 +293,11 @@ async function loadProjects() {
       return;
     }
 
-    valid.forEach((p, i) => main.appendChild(renderSection(p, i)));
+    valid.forEach((p, i) => {
+      const section = renderSection(p, i);
+      main.appendChild(section);
+      observeVideos(section);
+    });
     buildDock(valid);
 
   } catch {

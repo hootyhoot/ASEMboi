@@ -1,0 +1,8 @@
+{
+  "title": "Line Tracking",
+  "date": "2025-06-24",
+  "description": "Building on our mobile robot, we added a triple IR sensor array mounted beneath the chassis to detect a black line on a light surface. The core challenge was developing an algorithm to keep the robot moving in a straight line despite the sensors' narrow field of view — we used the three readings to compute a weighted error and feed it into a differential drive correction. We then extended the logic to count line intersections, triggering pre-programmed turns and strafing manoeuvres at specific counts to complete a defined navigation sequence autonomously.",
+  "tags": ["Mobile Robot", "IR Sensors", "Line Tracking", "PID", "Autonomous", "Arduino"],
+  "cover": null,
+  "images": ["linetracking.mp4"]
+}
