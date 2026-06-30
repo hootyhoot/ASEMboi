@@ -221,6 +221,18 @@ function formatDate(dateStr) {
 }
 
 // ── Render section ─────────────────────────────────────────
+function makeMediaEl(src, alt) {
+  if (isVideo(src)) {
+    const isWebm = src.endsWith('.webm');
+    const mp4Src = isWebm ? src.replace(/\.webm$/, '.mp4') : src;
+    const sources = isWebm
+      ? `<source src="${src}" type="video/webm"><source src="${mp4Src}" type="video/mp4">`
+      : `<source src="${src}" type="video/mp4">`;
+    return `<video class="gallery-video" autoplay muted loop playsinline preload="auto">${sources}</video>`;
+  }
+  return `<img class="gallery-img" src="${src}" alt="${alt}" loading="lazy">`;
+}
+
 function renderSection(project, index) {
   const section = document.createElement('section');
   section.className = 'project-section';
@@ -229,21 +241,17 @@ function renderSection(project, index) {
   const media = project.images || [];
   const tags  = (project.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
-  let galleryClass = 'project-gallery';
-  if (media.length === 1) galleryClass += ' single';
-  else if (media.length === 2) galleryClass += ' double';
-
-  const galleryHTML = media.map((src, i) => {
-    if (isVideo(src)) {
-      const isWebm = src.endsWith('.webm');
-      const mp4Src = isWebm ? src.replace(/\.webm$/, '.mp4') : src;
-      const sources = isWebm
-        ? `<source src="${src}" type="video/webm"><source src="${mp4Src}" type="video/mp4">`
-        : `<source src="${src}" type="video/mp4">`;
-      return `<video class="gallery-video" autoplay muted loop playsinline preload="auto">${sources}</video>`;
-    }
-    return `<img class="gallery-img" src="${src}" alt="${project.title} — image ${i + 1}" loading="lazy">`;
-  }).join('');
+  let galleryHTML = '';
+  if (media.length === 1) {
+    galleryHTML = `<div class="project-gallery single">${makeMediaEl(media[0], project.title)}</div>`;
+  } else if (media.length > 1) {
+    const stripHTML = media.slice(1).map((src, i) => makeMediaEl(src, `${project.title} — ${i + 2}`)).join('');
+    galleryHTML = `
+      <div class="project-gallery multi">
+        <div class="gallery-primary">${makeMediaEl(media[0], project.title)}</div>
+        <div class="gallery-strip">${stripHTML}</div>
+      </div>`;
+  }
 
   section.innerHTML = `
     <div class="project-inner">
@@ -253,13 +261,30 @@ function renderSection(project, index) {
         ${tags ? `<div class="project-tags">${tags}</div>` : ''}
         ${project.description ? `<p class="project-desc">${project.description}</p>` : ''}
       </div>
-      ${media.length ? `<div class="${galleryClass}">${galleryHTML}</div>` : ''}
+      ${galleryHTML}
     </div>
   `;
 
-  const imgEls  = [...section.querySelectorAll('.gallery-img')];
+  // Portrait single media → side-by-side layout (text left, media right)
+  if (media.length === 1) {
+    const inner = section.querySelector('.project-inner');
+    const el    = section.querySelector('.gallery-video, .gallery-img');
+    if (el) {
+      const check = () => {
+        const w = el.tagName === 'VIDEO' ? el.videoWidth : el.naturalWidth;
+        const h = el.tagName === 'VIDEO' ? el.videoHeight : el.naturalHeight;
+        if (w && h > w) inner.classList.add('project-inner--side');
+      };
+      if (el.tagName === 'VIDEO') {
+        el.readyState >= 1 ? check() : el.addEventListener('loadedmetadata', check);
+      } else {
+        el.complete && el.naturalWidth ? check() : el.addEventListener('load', check);
+      }
+    }
+  }
+
   const imgSrcs = media.filter(s => !isVideo(s));
-  imgEls.forEach((img, i) => {
+  section.querySelectorAll('.gallery-img').forEach((img, i) => {
     img.addEventListener('click', () => openLightbox(imgSrcs, i));
   });
 
