@@ -4,5 +4,6 @@
   "combined-robot-trial",
   "line-tracking",
   "inverse-kinematics",
-  "bin-sorting"
+  "bin-sorting",
+  "iot-cloud-integration"
 ]

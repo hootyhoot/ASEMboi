@@ -253,6 +253,14 @@ function renderSection(project, index) {
       </div>`;
   }
 
+  const embedHTML = project.embed
+    ? `<div class="project-embed-wrap">
+        <iframe src="${project.embed}" loading="lazy" allowfullscreen
+          scrolling="auto" frameborder="0" marginheight="0" marginwidth="0"
+          title="${project.title}"></iframe>
+      </div>`
+    : '';
+
   section.innerHTML = `
     <div class="project-inner">
       <div class="project-meta">
@@ -261,7 +269,7 @@ function renderSection(project, index) {
         ${tags ? `<div class="project-tags">${tags}</div>` : ''}
         ${project.description ? `<p class="project-desc">${project.description}</p>` : ''}
       </div>
-      ${galleryHTML}
+      ${galleryHTML}${embedHTML}
     </div>
   `;
 

@@ -1,0 +1,8 @@
+{
+  "title": "Cloud IoT Integration",
+  "date": "2026-07-08",
+  "description": "Connecting our robots to the Favoriot cloud IoT platform. RPC (Remote Procedure Call) messages are transmitted directly to individual bots for real-time command and control, while standard HTTP POST and GET requests handle inter-bot communication — allowing the mobile robot and arm to coordinate through the cloud without a direct wireless link between them.",
+  "tags": ["IoT", "Favoriot", "Cloud", "RPC", "REST API", "ESP32", "Arduino"],
+  "embed": "https://platform.favoriot.com/public/dashboard/Warehouse Control/53616c7465645f5ff70d67c84c107546bfb0612b15fe5e62ac01d9125bb58acb26fad32a2ee066eb7d39d803c61967a5f57c0d5cc68a9907a02100946a6bc91c058a79b3666abcd2ec72220a5360cf03f929cf1db6d82e5e756e031d2a1a1f239c9dab7c8381ed7929b2bce8847f4d2033f787ecee943d16613be17dea9d0eaed214b8a3fc9a56821abc57cd86052977626b822818f9a2bb0847c5bc10fbf8561f122ba76d71ee4f7fdf5317fdd7c99ba8964693a5de5cebfc4b081c24aa4f6e2907e5c07f3843cbe11a00377d48eb7374d948846ec8a9e4b05a0a2ca451a9eb",
+  "images": []
+}
