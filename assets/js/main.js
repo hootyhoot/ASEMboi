@@ -253,14 +253,6 @@ function renderSection(project, index) {
       </div>`;
   }
 
-  const embedHTML = project.embed
-    ? `<div class="project-embed-wrap">
-        <iframe src="${project.embed}" loading="lazy" allowfullscreen
-          scrolling="auto" frameborder="0" marginheight="0" marginwidth="0"
-          title="${project.title}"></iframe>
-      </div>`
-    : '';
-
   section.innerHTML = `
     <div class="project-inner">
       <div class="project-meta">
@@ -269,9 +261,23 @@ function renderSection(project, index) {
         ${tags ? `<div class="project-tags">${tags}</div>` : ''}
         ${project.description ? `<p class="project-desc">${project.description}</p>` : ''}
       </div>
-      ${galleryHTML}${embedHTML}
+      ${galleryHTML}
     </div>
   `;
+
+  if (project.embed) {
+    const wrap = document.createElement('div');
+    wrap.className = 'project-embed-wrap';
+    const iframe = document.createElement('iframe');
+    iframe.src = project.embed;
+    iframe.loading = 'lazy';
+    iframe.allowFullscreen = true;
+    iframe.scrolling = 'auto';
+    iframe.frameBorder = '0';
+    iframe.title = project.title;
+    wrap.appendChild(iframe);
+    section.querySelector('.project-inner').appendChild(wrap);
+  }
 
   // Portrait single media → side-by-side layout (text left, media right)
   if (media.length === 1) {
